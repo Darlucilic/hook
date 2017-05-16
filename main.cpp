@@ -39,3 +39,53 @@ void Log(const char *fmt, ...)
 }
 
 //==========================================================================================================================
+
+
+typedef void(*func_vkCmdDrawIndexed_t) (VkCommandBuffer commandBuffer, uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance);
+func_vkCmdDrawIndexed_t ovkCmdDrawIndexed;
+
+void hvkCmdDrawIndexed(VkCommandBuffer commandBuffer, uint32_t indexCount, uint32_t instanceCount, uint32_t firstIndex, int32_t vertexOffset, uint32_t firstInstance)
+{
+	//random log
+	//commandBuffer == 271658976 && indexCount == 35496 && instanceCountt == 1 && firstIndex == 0 && vertexOffset == 0 && firstInstance == 0
+	//commandBuffer == 271658976 && indexCount == 765 && instanceCountt == 1 && firstIndex == 0 && vertexOffset == 0 && firstInstance == 0
+
+	//model rec
+	//indexCount == 1698 //big health pack
+	//indexCount == 1272 //big armor
+	//indexCount == 35496 //monster1
+	//indexCount == 45603 //monster2
+
+	if(indexCount == 35496|| indexCount == 45603|| indexCount == 1698|| indexCount == 1272)
+	{
+		//does NOT work
+		//vkCmdSetDepthBounds(commandBuffer, 0.0, 0.9);
+		//vkCmdSetDepthBounds(commandBuffer, 0.5, 1);
+		//vkCmdSetDepthBias(commandBuffer, 16.0, 16.0, 16.0);
+		//ovkCmdDrawIndexed(commandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
+		//vkCmdSetDepthBias(commandBuffer, 1.0, 0.0, 2.5);
+		//vkCmdSetDepthBounds(commandBuffer, 0, 0.5);
+		//vkCmdSetDepthBounds(commandBuffer, 0.1, 1.0);
+	}
+
+	//hold down P key to log changes
+	if (GetAsyncKeyState('O') & 1) //-
+		countnum--;
+	if (GetAsyncKeyState('P') & 1) //+
+		countnum++;
+	if ((GetAsyncKeyState(VK_MENU)) && (GetAsyncKeyState('9') & 1)) //reset, set to -1
+		countnum = -1;
+	if (countnum == indexCount/100)
+		if (GetAsyncKeyState('I') & 1) //press I to log to log.txt
+			Log("indexCount == %d", indexCount);
+
+	if (countnum == indexCount/100)
+	{
+		return;//delete texture
+	}
+		
+
+	ovkCmdDrawIndexed(commandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
+}
+
+//==========================================================================================================================
