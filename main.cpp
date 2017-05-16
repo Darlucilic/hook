@@ -89,3 +89,17 @@ void hvkCmdDrawIndexed(VkCommandBuffer commandBuffer, uint32_t indexCount, uint3
 }
 
 //==========================================================================================================================
+
+typedef void(*func_vkCmdDrawIndexedIndirect_t) (VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride);
+func_vkCmdDrawIndexedIndirect_t ovkCmdDrawIndexedIndirect;
+
+void hvkCmdDrawIndexedIndirect(VkCommandBuffer commandBuffer, VkBuffer buffer, VkDeviceSize offset, uint32_t drawCount, uint32_t stride)
+{
+	//random log
+	//commandBuffer == 340001424 && buffer == 200070720 && offset == 1536 && drawCount == 1 && stride == 0
+	//commandBuffer == 339955296 && buffer == 200070720 && offset == 0 && drawCount == 1 && stride == 0
+
+	ovkCmdDrawIndexedIndirect(commandBuffer, buffer, offset, drawCount, stride);
+}
+
+//==========================================================================================================================
